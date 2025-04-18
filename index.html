@@ -7,6 +7,57 @@
     <link href="./style.css" rel="stylesheet">
 </head>
 <body>
-    
+    <div class="main">
+        <div class="calculations">
+            <div class="header">
+                <h1>Calculator</h1>
+            </div>
+            <div class="keys">
+                <div class="left_keys">
+                    <div class="row_1">
+                        <div id="reset">CE</div>
+                        <div id="back">&#8592;</div>
+                        <div id="open_par">&#x28;</div>
+                    </div>
+                    <div class="row_2">
+                        <div id="exponent">^</div>
+                        <div id="divide">/</div>
+                        <div id="multiply">*</div>
+                    </div>
+                    <div class="row_3">
+                        <div id="seven">7</div>
+                        <div id="eight">8</div>
+                        <div id="nine">9</div>
+                    </div>
+                    <div class="row_4">
+                        <div id="four">4</div>
+                        <div id="five">5</div>
+                        <div id="six">6</div>
+                    </div>
+                    <div class="row_5">
+                        <div id="one">1</div>
+                        <div id="two">2</div>
+                        <div id="three">3</div>
+                    </div>
+                    <div class="row_6">
+                        <div id="zero">0</div>
+                        <div id="period">.</div>
+                    </div>
+                </div>
+                <div class="right_keys">
+                    <div id="close_par">&#x29;</div>
+                    <div id="minus">-</div>
+                    <div id="plus">+</div>
+                    <div id="enter">ENTER</div>
+                </div>
+            </div>
+        </div>
+        <div class="history">
+            <button id="clear_history">Clear history</button>
+            <div id="calc_history">
+                <!-- entries will be added here via JS -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

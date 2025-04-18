@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="main">
-        <div class="calculations">
-            <div class="header">
-                <h1>Calculator</h1>
+            <div class="calculations">
+            <div class="calcField">
+                5000+3000<!-- Filled by calculations and operations -->
             </div>
             <div class="keys">
                 <div class="left_keys">
@@ -53,11 +53,179 @@
             </div>
         </div>
         <div class="history">
+            <h1>Calculator</h1>
             <button id="clear_history">Clear history</button>
             <div id="calc_history">
-                <!-- entries will be added here via JS -->
+                Hier kommen Einträge<!-- entries will be added here via JS -->
             </div>
         </div>
     </div>
+
+    <script>
+
+function addValues(a,b) {
+    return a+b;
+}
+
+function subtractValues(a,b) {
+    return a-b;
+}
+
+function multiplyValues(a,b) {
+    return a*b;
+}
+
+function divideValues(a,b) {
+    if (b == 0) {
+        return "kek";
+    } else {
+        return a/b;
+    }
+}
+
+function powerValues(a,b) {
+    return a**b;
+}
+
+function delegateCalculation(operator, firstValue, secondValue) {
+    switch (operator) {
+        case "+":
+            return addValues(firstValue, secondValue);
+        case "-":
+            return subtractValues(firstValue, secondValue);
+        case "*":
+            return multiplyValues(firstValue, secondValue);
+        case "/":
+            return divideValues(firstValue, secondValue);
+        case "^":
+            return powerValues(firstValue, secondValue);
+    }
+}
+
+const keyPad = document.querySelector(".keys");
+const calcField = document.querySelector(".calcField");
+keyPad.addEventListener("click", resolveClick);
+
+function resolveClick(e) {
+    resolveInput(e.target.id);
+}
+
+function resolveInput(input) {
+    let character;
+    switch (input) {
+        case "one":
+            character = 1;
+            break;
+        case "two":
+            character = 2;
+            break;
+        case "three":
+            character = 3;
+            break;
+        case "four":
+            character = 4;
+            break;
+        case "five":
+            character = 5;
+            break;
+        case "six":
+            character = 6;
+            break;
+        case "seven":
+            character = 7;
+            break;
+        case "eight":
+            character = 8;
+            break;
+        case "nine":
+            character = 9;
+            break;
+        case "zero":
+            character = 0;
+            break;
+        case "plus":
+            character = "+";
+            break;
+        case "minus":
+            character = "-";
+            break;
+        case "multiply":
+            character = "*";
+            break;
+        case "divide":
+            character = "/";
+            break;
+        case "exponent":
+            character = "^";
+            break;
+        case "period":
+            character = ".";
+            break;
+        case "enter":
+            character = "#";
+            break;
+        case "reset":
+            character = "~";
+            break;
+        case "back":
+            character = ":";
+            break;
+        default:
+            return;
+    }
+    calcField.textContent = calcField.textContent + character
+    resolveChange(calcField.textContent)
+}
+
+function resolveChange(inputText) {
+    let outputText;
+    console.log(inputText.slice(inputText.length-2,inputText.length-1));
+    // Clear-Funktion
+    if (inputText.slice(-1)==="~") {
+        outputText = "";
+    // Backspace-Funktion
+    } else if (inputText.slice(-1)===":") {
+        outputText = inputText.slice(0,inputText.length-2);
+    // Eingabe-Funktion
+    } else if (inputText.slice(-1)==="#") {
+        outputText = inputText.slice(0,inputText.length-1);
+        resolveCalculation(outputText);
+        return;
+    // Überprüfung Punkt zulässig
+    } else if (illegalPoint(inputText)) {
+        outputText = inputText.slice(0,inputText.length-1);
+    // Umwandlung Punkt in Null Komma Punkt
+    } else if (inputText.slice(-1)==="." && isNaN(inputText.slice(inputText.length-2,inputText.length-1))) {
+        outputText = inputText.slice(0,inputText.length-1)+"0.";
+    // Kontrolle mehrere Operanten, letzter gültig
+    } else if (isNaN(inputText.slice(-1)) && isNaN(inputText.slice(inputText.length-2,inputText.length-1))) {
+        outputText = inputText.slice(0,inputText.length-2) + inputText.slice(-1);
+    // normale Übernahme
+    } else {
+        outputText = inputText;
+    }
+    calcField.textContent = outputText;
+}
+
+function illegalPoint(inputText) {
+    let inputArray = inputText.split("");
+    let pointMarker = false;
+    for (i = inputArray.length-1; i>= 0; i--) {
+        if (inputArray[i] === "." && pointMarker) {
+            return true;
+        } else if (inputArray[i] === ".") {
+            pointMarker = true;
+        } else if (isNaN(inputArray[i])) {
+            return false;
+        }
+    }
+    return false;
+}
+
+function resolveCalculation(inputStream) {
+    
+}
+
+    </script>
 </body>
 </html>

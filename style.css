@@ -111,3 +111,9 @@ body {
     overflow-y: scroll;
     padding: 10px;
 }
+
+.history_entry {
+    margin: 5px;
+    padding: 5px;
+    border: solid darkgrey 1px;
+}

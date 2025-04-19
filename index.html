@@ -56,7 +56,7 @@
             <h1>Calculator</h1>
             <button id="clear_history">Clear history</button>
             <div id="calc_history">
-                Hier kommen Einträge<!-- entries will be added here via JS -->
+                <!-- entries will be added here via JS -->
             </div>
         </div>
     </div>
@@ -66,8 +66,12 @@
 const keyPad = document.querySelector(".keys");
 const calcField = document.querySelector(".calcField");
 const body = document.querySelector("body");
+const history_div = document.querySelector("#calc_history");
+const clearButton = document.querySelector("#clear_history");
 keyPad.addEventListener("click", resolveClick);
 body.addEventListener("keydown", resolveKey);
+history_div.addEventListener("click", history_click)
+clearButton.addEventListener("click", clearHistory);
 Flag_Calculated = false
 
 function addValues(a,b) {
@@ -371,7 +375,33 @@ function resolveCalculation(inputStream) {
 }
 
 function writeHistory(inputResult, inputCalc) {
+    let newHistory = document.createElement("p");
+    newHistory.textContent = inputResult + " = " + inputCalc;
+    newHistory.className = "history_entry";
+    // newHistory.addEventListener("click", history_click(inputResult));
+    history_div.prepend(newHistory);
+}
 
+function history_click(e) {
+    if (e.target.className === "history_entry") {
+        let tempArray = e.target.textContent.split(" = ");
+        let result = tempArray[0];
+        let fieldValue = calcField.textContent;
+        if (!illegalPoint(fieldValue+result)) {
+            calcField.textContent = fieldValue+result
+        }
+        console.log(e.target);
+        console.log(result);
+  
+    }
+}
+
+function clearHistory() {
+    clearButton.blur();
+    let entries = document.querySelectorAll(".history_entry");
+    for (entry of entries) {
+        entry.remove();
+    }
 }
 
     </script>

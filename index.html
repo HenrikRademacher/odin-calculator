@@ -72,7 +72,8 @@ keyPad.addEventListener("click", resolveClick);
 body.addEventListener("keydown", resolveKey);
 history_div.addEventListener("click", history_click)
 clearButton.addEventListener("click", clearHistory);
-Flag_Calculated = false
+let Flag_Calculated = false;
+let Flag_Error = false;
 
 function addValues(a,b) {
     return a+b;
@@ -88,7 +89,8 @@ function multiplyValues(a,b) {
 
 function divideValues(a,b) {
     if (b == 0) {
-        return "kek";
+        Flag_Error = true;        
+        return "¯|_(ツ)_/¯";
     } else {
         return a/b;
     }
@@ -287,6 +289,7 @@ function resolveChange(inputText) {
     // Clear-Funktion
     if (lastChar === "~") {
         outputText = "";
+        Flag_Error = false;
     // Clear nach erfolgter Berechnung
     } else if (!isNaN(lastChar) && Flag_Calculated) {
         outputText = lastChar;
@@ -299,6 +302,7 @@ function resolveChange(inputText) {
         let result = resolveCalculation(outputText);
         calcField.textContent = result;
         writeHistory(result, outputText);
+        Flag_Error = false;
         return;
     // Überprüfung Punkt zulässig
     } else if (illegalPoint(inputText)) {
@@ -355,9 +359,10 @@ function resolveCalculation(inputStream) {
             operator = inputStream.slice(i,i+1);
             firstVal = parseFloat(inputStream.slice(0,i));
         // zweites Rechenzeichen gefunden
-        } else if (firstHit === undefined && isNaN(inputStream.slice(i,i+1))) {
+        } else if (firstHit !== undefined && isNaN(inputStream.slice(i,i+1))) {
             restStream = inputStream.slice(i);
             secondVal = parseFloat(inputStream.slice(firstHit+1,i));
+            break;
         // letztes Zeichen evaluiert
         } else if (i === inputStream.length -1) {
             secondVal = parseFloat(inputStream.slice(firstHit+1,i+1));
@@ -366,7 +371,14 @@ function resolveCalculation(inputStream) {
     // console.log(firstVal);
     // console.log(secondVal);
     // console.log(operator);
+    // console.log(restStream);
+    if (firstHit === undefined) {
+        return inputStream;
+    }
     let outputStream = delegateCalculation(operator, firstVal, secondVal);
+    if (Flag_Error) {
+        restStream = "";
+    }
     if (restStream) {
         outputStream = resolveCalculation(outputStream+restStream);
     }
@@ -390,8 +402,8 @@ function history_click(e) {
         if (!illegalPoint(fieldValue+result)) {
             calcField.textContent = fieldValue+result
         }
-        console.log(e.target);
-        console.log(result);
+        // console.log(e.target);
+        // console.log(result);
   
     }
 }

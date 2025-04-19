@@ -65,7 +65,9 @@
 
 const keyPad = document.querySelector(".keys");
 const calcField = document.querySelector(".calcField");
+const body = document.querySelector("body");
 keyPad.addEventListener("click", resolveClick);
+body.addEventListener("keydown", resolveKey);
 Flag_Calculated = false
 
 function addValues(a,b) {
@@ -118,6 +120,94 @@ function delegateCalculation(operator, firstValue, secondValue) {
 
 function resolveClick(e) {
     resolveInput(e.target.id);
+}
+
+function resolveKey(e) {
+    let value;
+    switch (e.code) {
+        case "Digit0":
+        case "Numpad0":
+            value = "zero";
+            break;
+        case "Digit1":
+        case "Numpad1":
+            value = "one";
+            break;
+        case "Digit2":
+        case "Numpad2":
+            value = "two";
+            break;
+        case "Digit3":
+        case "Numpad3":
+            value = "three";
+            break;
+        case "Digit4":
+        case "Numpad4":
+            value = "four";
+            break;
+        case "Digit5":
+        case "Numpad5":
+            value = "five";
+            break;
+        case "Digit6":
+        case "Numpad6":
+            value = "six";
+            break;
+        case "Numpad7":
+            value = "seven";
+            break;
+        case "Digit8":
+        case "Numpad8":
+            value = "eight";
+            break;
+        case "Digit9":
+        case "Numpad9":
+            value = "nine";
+            break;
+        case "Enter":
+        case "NumpadEnter":
+            value = "enter";
+            break;
+        case "Delete":
+            value = "reset";
+            break;
+        case "Backspace":
+            value = "back";
+            break;
+        case "NumpadAdd":
+            value = "plus";
+            break;
+        case "Slash":
+        case "NumpadSubtract":
+            value = "minus";
+            break;
+        case "KeyX":
+        case "NumpadMultiply":
+            value = "multiply";
+            break;
+        case "NumpadDivide":
+            value = "divide";
+            break;
+        case "Backquote":
+            value = "exponent";
+            break;
+        case "Period":
+        case "Comma":
+        case "NumpadDecimal":
+            value = "period";
+            break;
+        default:
+            if (e.code == "BracketRight" && e.shiftKey == true) {
+                value = "multiply";
+            } else if (e.code == "BracketRight") {
+                value = "plus";
+            } else if (e.code == "Digit7" && e.shiftKey == true) {
+                value = "divide";
+            } else if (e.code == "Digit7") {
+                value = "seven";
+            }
+    }
+    resolveInput(value);
 }
 
 function resolveInput(input) {
